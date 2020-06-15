@@ -14,6 +14,43 @@ class User{
         $this->password = '';
     }
 
+    public static function loginUser(PDO $conn, string $email, string $password){
+        $sql = "SELECT * FROM `Users` WHERE `email`=:email";
+        $stmt = $conn->prepare($sql);
+        $result = $stmt->execute(['email'=>$email]);
+        if ($result && $stmt->rowCount() > 0){
+            $record = $stmt->fetch(PDO::FETCH_ASSOC);
+            if (password_verify($password,$record['password'])){
+                $user = new User();
+                $user->setName($record['name']);
+                $user->setEmail($record['email']);
+                $user->setPassword($record['password']);
+                $user->setId($record['id']);
+
+                return $user;
+            }
+
+        }
+        return null;
+    }
+
+    public static function getById(PDO $conn, int $userId){
+        $sql = "SELECT * FROM `Users` WHERE `id`=:userId";
+        $stmt = $conn->prepare($sql);
+        $result = $stmt->execute(['userId'=>$userId]);
+        if ($result && $stmt->rowCount() > 0){
+            $record = $stmt->fetch(PDO::FETCH_ASSOC);
+            $user = new User();
+            $user->name = $record['name'];
+            $user->email = $record['email'];
+            $user->password =$record['password'];
+            $user->id = $record['id'];
+
+            return $user;
+        }
+        return null;
+    }
+
     public static function getByEmail(PDO $conn, string $email){
         $sql = "SELECT * FROM `Users` WHERE `email`=:email";
         $stmt = $conn->prepare($sql);
