@@ -1,5 +1,6 @@
 <?php
 require_once ROOT.'/includes/activeRecords/User.php';
+
 $message = '';
 $hasErrors = false;
 $errors = [];
@@ -21,16 +22,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     }
 
     if (empty($errors)){
+
         $user = User::loginUser($conn,$email,$password);
         if (!is_null($user)){
             $_SESSION['userId'] = $user->getId();
             $_SESSION['userName'] = $user->getName();
             $_SESSION['userEmail'] = $user->getEmail();
-            $message = "Hello " . $_SESSION['userName'] . " !";
+
             header('Location:index.php');
             exit();
         }else{
-            $message = 'User does not exist! Please register!';
+            $message = 'Wrong email or password';
         }
 
     }else{

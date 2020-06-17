@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 define('ROOT',dirname(__DIR__));
 require_once ROOT.'/lib/conn.php';
 $conn = connect();
@@ -7,7 +8,8 @@ $conn = connect();
 $public = ['home','login','register'];
 $private = ['profile','addTweet','removeTweet','comment','logout','profile'];
 
-$isLoggedIn = $_SESSION['userId'];
+$isLoggedIn = isset($_SESSION['userId']) ?
+    $_SESSION['userId'] : false;
 if ($isLoggedIn){
     $routes = array_merge($public,['profile','addTweet','removeTweet','comment','logout']);
 }else{

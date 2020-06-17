@@ -84,7 +84,7 @@ class User{
             }
 
         }else{
-            $sql = "UPDATE `Users` SET `name` =: name,`email` =: email,`password` =: password WHERE `id` =:id";
+            $sql = "UPDATE `Users` SET `name`=:name,`email`=:email,`password`=:password WHERE `id`=:id";
             $stmt = $conn->prepare($sql);
             $result = $stmt->execute([
                 'name'=>$this->name,

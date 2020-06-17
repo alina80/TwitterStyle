@@ -18,7 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         $_POST['checkPass'] : null;
 
     $user = User::getById($conn, $_SESSION['userId']);
-    echo 'xx ' . $user->getPassword();
     $verifyOldPass = password_verify($oldPassword,$user->getPassword());
 
     if (is_null($name)){
@@ -43,12 +42,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         $errors[] = 'Password does not match';
     }
 
+
     if (empty($errors)){
         $user = new User();
         $user->setId($_SESSION['userId']);
         $user->setName($name);
         $user->setEmail($email);
         $user->setPassword($newPassword);
+        $user->save($conn);
 
         if ($user->save($conn)){
             header('Location:index.php');
@@ -72,7 +73,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
         $name = $user->getName();
         $email = $user->getEmail();
     }
-
-
-
 }
