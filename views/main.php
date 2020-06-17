@@ -29,6 +29,9 @@
                               <a class="nav-link" href="?page=profile"><i class="fa fa-user"> Profile</i></a>
                           </li>
                           <li class="nav-item my-auto">
+                              <a class="nav-link" href="?page=messages"><i class="fa fa-envelope"> Messages</i></a>
+                          </li>
+                          <li class="nav-item my-auto">
                               <a class="nav-link" href="?page=logout"><i class="fa fa-power-off"> Logout</i></a>
                           </li>
                       <?php }else{ ?>

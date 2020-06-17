@@ -14,6 +14,15 @@
                     <input class="btn btn-primary" type="submit" value="Tweet" >
                 </div>
             </form>
+            <legend>My Tweets</legend>
+            <ul>
+                <?php
+                $myTweets = Tweet::loadAllTweetsByUserId($conn, $_SESSION['userId']);
+                foreach ($myTweets as $k=>$v){ ?>
+                    <li class="nav-link"><?= $v['text'] ?></li>
+                <?php }
+                ?>
+            </ul>
         </div>
     <?php }else{ ?>
         <div class="col-md-3 mt-5 text-center">
@@ -31,7 +40,7 @@
             <?php
             $tweetsList = Tweet::loadAllTweets($conn);
             $nrOfTweets = count($tweetsList);  //total items in array
-            $perPage = 3;  //per page
+            $perPage = 5;  //per page
 
             $pageNr = ! empty( $_GET['pageNr'] ) ? (int) $_GET['pageNr'] : 1;
 
@@ -56,16 +65,13 @@
             <?php }
             ?>
         </ul>
-
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <?php
-                for ($i = 1; $i <= $totalPages; $i ++ ){ ?>
-                    <?php $pageNr = $i; ?>
-                    <li class="page-item"><a class="page-link" href="index.php?page=home&pageNr=<?= $pageNr ?>"> <?= $pageNr ?> </a></li>
-                <?php }
-                ?>
-            </ul>
-        </nav>
+        <ul class="pagination">
+            <?php
+            for ($i = 1; $i <= $totalPages; $i ++ ){ ?>
+                <?php $pageNr = $i; ?>
+                <li class="page-item"><a class="page-link" href="index.php?page=home&pageNr=<?= $pageNr ?>"> <?= $pageNr ?> </a></li>
+            <?php }
+            ?>
+        </ul>
     </div>
 </div>

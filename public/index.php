@@ -6,7 +6,7 @@ require_once ROOT.'/lib/conn.php';
 $conn = connect();
 
 $public = ['home','login','register'];
-$private = ['profile','addTweet','removeTweet','comment','logout','profile'];
+$private = ['profile','addTweet','removeTweet','comment','logout','profile','messages'];
 
 $isLoggedIn = isset($_SESSION['userId']) ?
     $_SESSION['userId'] : false;

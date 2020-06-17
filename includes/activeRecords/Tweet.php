@@ -12,6 +12,37 @@ class Tweet{
         $this->text = '';
     }
 
+    public static function getById(PDO $conn, int $tweetId){
+        $sql = "SELECT * FROM `Tweet` WHERE `id`=:tweetId";
+        $stmt = $conn->prepare($sql);
+        $result = $stmt->execute(['tweetId'=>$tweetId]);
+        if ($result && $stmt->rowCount() > 0){
+            $record = $stmt->fetch(PDO::FETCH_ASSOC);
+            $tweet = new Tweet();
+            $tweet->text = $record['text'];
+            $tweet->creationDate = $record['creationDate'];
+            $tweet->userId =$record['userId'];
+            $tweet->id = $record['id'];
+
+            return $tweet;
+        }
+        return null;
+    }
+
+    public static function loadAllTweetsByUserId(PDO $conn, int $userId){
+        $userTweets = [];
+        $sql= "SELECT `text`,`creationDate`,`name` FROM `Tweet` 
+               JOIN `Users` ON `Tweet`.`userId`=`Users`.`id` 
+               WHERE `Users`.`id`=:id
+               ORDER BY `creationDate` DESC ";
+        $stmt = $conn->prepare($sql);
+        $result = $stmt->execute(['id'=>$userId]);
+        if ($result !== false && $stmt->rowCount() > 0) {
+            $userTweets = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return $userTweets;
+    }
+
     public static function loadAllTweets(PDO $conn): array {
         $tweets = [];
         $sql = "SELECT `text`,`creationDate`,`name` FROM `Tweet` JOIN `Users` ON `Tweet`.`userId`=`Users`.`id` ORDER BY `creationDate` DESC";
