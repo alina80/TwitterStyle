@@ -13,22 +13,14 @@ class Tweet{
     }
 
     public static function loadAllTweets(PDO $conn): array {
-        $ret = [];
-        $sql = "SELECT * FROM `Tweet`";
+        $tweets = [];
+        $sql = "SELECT `text`,`creationDate`,`name` FROM `Tweet` JOIN `Users` ON `Tweet`.`userId`=`Users`.`id` ORDER BY `creationDate` DESC";
         $result = $conn->query($sql);
 
         if ($result !== false && $result->rowCount() > 0) {
-           // $tweets = $result->fetchAll(PDO::FETCH_ASSOC);
-            foreach ($result as $row) {
-                $loadedTweet = new Tweet();
-                $loadedTweet->id = $row['id'];
-                $loadedTweet->userId = $row['userId'];
-                $loadedTweet->text = $row['text'];
-                $loadedTweet->creationDate = $row['creationDate'];
-                $ret[] = $loadedTweet;
-            }
+            $tweets = $result->fetchAll(PDO::FETCH_ASSOC);
         }
-    return $ret;
+    return $tweets;
     }
 
     public function saveTweet(PDO $conn){

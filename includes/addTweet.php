@@ -6,7 +6,6 @@ require_once ROOT.'/includes/activeRecords/Tweet.php';
        $tweetText = isset($_POST['tweet']) && strlen(trim($_POST['tweet'])) > 0 && strlen(trim($_POST['tweet'])) < 60 ?
            $_POST['tweet'] : null;
 
-       $tweetsList = Tweet::loadAllTweets($conn);
        $tweet = new Tweet();
        $tweet->setUserId($userId);
        $tweet->setText($tweetText);
@@ -18,10 +17,5 @@ require_once ROOT.'/includes/activeRecords/Tweet.php';
        }else{
            echo 'Tweet not saved ';
        }
-
-
-
    }
-
-
    $page = 'home';

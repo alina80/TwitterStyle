@@ -1,10 +1,8 @@
-<?php
-require_once ROOT.'/includes/activeRecords/Tweet.php';
-if ($isLoggedIn){ ?>
-
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-4 mt-4">
+<div class="row">
+    <?php
+    require_once ROOT.'/includes/activeRecords/Tweet.php';
+    if ($isLoggedIn){ ?>
+        <div class="col-md-6 mt-4 text-center">
             <form action="./index.php?page=addTweet" method="post">
                 <div></div>
                 <div>
@@ -17,38 +15,57 @@ if ($isLoggedIn){ ?>
                 </div>
             </form>
         </div>
-        <div class="col-md-4 mt-4">Lista tweet-uri
-            <ul>ggg
+    <?php }else{ ?>
+        <div class="col-md-3 mt-5 text-center">
+            <h5>Not registred yet? You can register </h5>
+            <a class="nav-link" href="./index.php?page=register">here</a>
+        </div>
+        <div class="col-md-3 mt-5 text-center">
+            <h5>Aready have an account? You can login </h5>
+            <a class="nav-link" href="./index.php?page=login">here</a>
+        </div>
+    <?php } ?>
+    <div class="col-md-6 mt-4">
+        <legend>Tweets List</legend>
+        <ul>
             <?php
             $tweetsList = Tweet::loadAllTweets($conn);
-            foreach ($tweetsList as $k=>$v){ ?>
-                <li>aa<?= $v['text'] ?></li>
+            $nrOfTweets = count($tweetsList);  //total items in array
+            $perPage = 3;  //per page
 
+            $pageNr = ! empty( $_GET['pageNr'] ) ? (int) $_GET['pageNr'] : 1;
+
+            $totalPages = ceil( $nrOfTweets / $perPage ); //calculate total pages
+
+            $pageNr = isset($_GET['pageNr']) && is_numeric($_GET['pageNr']) && $_GET['pageNr'] > 0 ?
+                $_GET['pageNr'] : max($pageNr, 1);  //get 1 page when $_GET['page'] <= 0
+            $pageNr = isset($_GET['pageNr']) && is_numeric($_GET['pageNr']) && $_GET['pageNr'] <= $totalPages ?
+                $_GET['pageNr'] : min($pageNr, 1);  //get last page when $_GET['page'] > $totalPages
+
+            $offset = ($pageNr - 1) * $perPage;
+            if( $offset < 0 ) {
+                $offset = 0;
+            }
+
+            $tweetsList = array_slice( $tweetsList, $offset, $perPage );
+
+            foreach ($tweetsList as $k=>$v){ ?>
+                <li class="nav-link">
+                    <a class="nav-link" href="#"><?= "@". $v['name'] ?></a><?= $v['text'] ?>
+                </li>
             <?php }
             ?>
-            </ul>
-        </div>
-        <div class="col-md-2"></div>
-    </div>
-<?php }else{ ?>
-    <div class="row">
-        <div class="col-md-4 mt-4"></div>
-        <div class="col-md-4 mt-4">
-            Register or Login
-        </div>
-        <div class="col-md-4 mt-4">
-            Lista tweet-uri
-            <ul>ggg
+        </ul>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
                 <?php
-                $tweetsList = Tweet::loadAllTweets($conn);
-
-                foreach ($tweetsList as $k=>$v){ ?>
-                    <li>aa<?= $v['text'] ?></li>
-
+                for ($i = 1; $i <= $totalPages; $i ++ ){ ?>
+                    <?php $pageNr = $i; ?>
+                    <li class="page-item"><a class="page-link" href="index.php?page=home&pageNr=<?= $pageNr ?>"> <?= $pageNr ?> </a></li>
                 <?php }
                 ?>
             </ul>
-        </div>
+        </nav>
     </div>
-
-<?php }
+</div>
