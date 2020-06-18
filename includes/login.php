@@ -7,7 +7,7 @@ $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     $email = isset($_POST['email']) && strlen(trim($_POST['email'])) > 3 ?
-        $_POST['email'] : null;
+        $_POST['email'] : '';
     $password = isset($_POST['password']) && strlen(trim($_POST['password'])) > 3 ?
         $_POST['password'] : null;
 

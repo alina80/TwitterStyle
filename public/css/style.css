@@ -24,3 +24,19 @@ footer .nav-link {
 footer a:hover {
     color: blue;
 }
+
+#nrOfComments {
+    font-size: 15px;
+    color: darkblue;
+}
+
+div.tweet-text a{
+    display: inline;
+}
+div.tweetStyle a{
+    font-size: 15px;
+    color: darkblue;
+}
+div.tweetStyle a:hover{
+    color: lightblue;
+}
