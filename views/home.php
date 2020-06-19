@@ -1,7 +1,11 @@
 <div class="row">
     <?php
     require_once ROOT.'/includes/activeRecords/Tweet.php';
+    require_once ROOT.'/includes/activeRecords/User.php';
     require_once ROOT.'/includes/activeRecords/Comment.php';
+
+    $hasErrors = false;
+    $message = '';
 
     if ($isLoggedIn){ ?>
         <div class="col-md-1"></div>
@@ -68,7 +72,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="tweet-text">
-                                <a class="nav-link" href="#"><?= "@". $v['name'] ?></a><?= $v['text'] ?>
+                                <a class="nav-link" href="?page=user&userToDisplay=<?= $v['userId'] ?>"><?= "@". $v['name'] ?></a><?= $v['text'] ?>
                             </div>
                         </div>
 
@@ -92,6 +96,7 @@
                         </div>
                         <div class="row">
                             <?php
+
                             if ($_GET['page'] == 'home' && $_GET['tweetId'] == $v['tweetId'] && $_GET['comments']=='show'){
                                 $commentsPerTweet = Comment::loadAllCommentsByPostId($conn, $v['tweetId']);
                                 foreach ($commentsPerTweet as $key=>$value){ ?>
@@ -104,6 +109,7 @@
                             }
                             ?>
                             <?php
+
                             if ($_GET['page'] =='home' && $_GET['tweetId'] == $v['tweetId'] && $_GET['addComment'] == 'add'){
                                 include_once ROOT.'/includes/comment.php';
                                 ?>

@@ -19,7 +19,7 @@ class Comment{
     public static function loadAllCommentsByPostId(PDO $conn, int $tweetId){
         $sql = "SELECT `Comments`.`id` `commentId`,`Comments`.`userId` `commentor`,`Comments`.`text` `commentText`,`Comments`.`creationDate` `commentDate`,`Comments`.`postId` `tweetId`,`Tweet`.`userId` `tweetorId`,`Tweet`.`text` `tweetText`,`Tweet`.`creationDate` `tweetDate` FROM `Comments` 
                 JOIN `Tweet` ON `Comments`.`postId`=`Tweet`.`id`
-                WHERE `Comments`.`postId` =:tweetId";
+                WHERE `Comments`.`postId` =:tweetId ORDER BY `commentDate` DESC";
         $stmt = $conn->prepare($sql);
         $result = $stmt->execute(['tweetId'=>$tweetId]);
 

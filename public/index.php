@@ -6,12 +6,12 @@ require_once ROOT.'/lib/conn.php';
 $conn = connect();
 
 $public = ['home','login','register'];
-$private = ['profile','addTweet','removeTweet','comment','logout','profile','messages'];
+$private = ['profile','addTweet','removeTweet','comment','logout','profile','messages','user'];
 
 $isLoggedIn = isset($_SESSION['userId']) ?
     $_SESSION['userId'] : false;
 if ($isLoggedIn){
-    $routes = array_merge($public,['profile','addTweet','removeTweet','comment','logout']);
+    $routes = array_merge($public,$private);
 }else{
     $routes = $public;
 }

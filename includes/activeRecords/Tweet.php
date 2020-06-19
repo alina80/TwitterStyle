@@ -31,7 +31,7 @@ class Tweet{
 
     public static function loadAllTweetsByUserId(PDO $conn, int $userId){
         $userTweets = [];
-        $sql= "SELECT `text`,`creationDate`,`name` FROM `Tweet` 
+        $sql= "SELECT `text`,`creationDate`,`name`,`Users`.`id` `userId` FROM `Tweet` 
                JOIN `Users` ON `Tweet`.`userId`=`Users`.`id` 
                WHERE `Users`.`id`=:id
                ORDER BY `creationDate` DESC ";
@@ -45,7 +45,9 @@ class Tweet{
 
     public static function loadAllTweets(PDO $conn): array {
         $tweets = [];
-        $sql = "SELECT `Tweet`.`id` `tweetId`,`text`,`creationDate`,`name` FROM `Tweet` JOIN `Users` ON `Tweet`.`userId`=`Users`.`id` ORDER BY `creationDate` DESC";
+        $sql = "SELECT `Tweet`.`id` `tweetId`,`text`,`creationDate`,`name`,`Users`.`id` `userId` FROM `Tweet` 
+                JOIN `Users` ON `Tweet`.`userId`=`Users`.`id` 
+                ORDER BY `creationDate` DESC";
         $result = $conn->query($sql);
 
         if ($result !== false && $result->rowCount() > 0) {
