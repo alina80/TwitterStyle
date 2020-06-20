@@ -1,4 +1,5 @@
 <?php
+
 require_once (ROOT."/includes/activeRecords/Tweet.php");
 require_once ROOT.'/includes/activeRecords/User.php';
 
