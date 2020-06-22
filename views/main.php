@@ -34,6 +34,7 @@
                           <li class="nav-item my-auto">
                               <a class="nav-link" href="?page=logout"><i class="fa fa-power-off"> Logout</i></a>
                           </li>
+
                       <?php }else{ ?>
                           <li class="nav-item">
                               <a class="nav-link" href="?page=register">Register</a>
@@ -45,7 +46,14 @@
                       ?>
 
                   </ul>
-                  <form class="form-inline my-2 my-lg-0">
+                  <ul class="navbar-nav ml-auto">
+                      <?php
+                      if ($isLoggedIn){ ?>
+                          <li class="nav-item">Logged in as <?= $_SESSION['userName'] ?></li>
+                      <?php }
+                      ?>
+                  </ul>
+                  <form class="form-inline my-2 my-lg-0 mr-1">
                       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                       <button class="btn btn-outline-primary my-2 my-sm-0" type="submit"><i class="fa fa-search"></i> Search</button>
                   </form>

@@ -16,6 +16,37 @@ class Message{
         $this->isRead = 0;
     }
 
+    public static function deleteMessage(PDO $conn, int $messageId){
+        $sql = "DELETE FROM `Messages` 
+                WHERE `Messages`.`id`=:messageId";
+        $stmt = $conn->prepare($sql);
+        $result = $stmt->execute(['messageId'=>$messageId]);
+        if ($result && $stmt->rowCount() > 0){
+            return true;
+        }
+        return false;
+    }
+
+    public static function getMessageById(PDO $conn, int $messageId){
+        $sql = "SELECT * FROM `Messages` 
+                WHERE `Messages`.`id`=:messageId";
+        $stmt = $conn->prepare($sql);
+        $result = $stmt->execute(['messageId'=>$messageId]);
+        if ($result && $stmt->rowCount() > 0){
+            $record = $stmt->fetch(PDO::FETCH_ASSOC);
+            $mes = new Message();
+            $mes->senderId = $record['senderId'];
+            $mes->recipientId = $record['recipientId'];
+            $mes->creationDate =$record['creationDate'];
+            $mes->id = $record['id'];
+            $mes->isRead = $record['isRead'];
+            $mes->messageText = $record['messageText'];
+
+            return $mes;
+        }
+        return null;
+    }
+
     public static function getAllMessagesBySenderId(PDO $conn, int $senderId){
         $sql = "SELECT `Messages`.`id` `messageId`,`Messages`.`senderId` `senderId`,`Messages`.`creationDate` `creationDate`,`Messages`.`messageText` `message`,`Messages`.`recipientId` `receiver` 
                 FROM `Messages` 
@@ -32,7 +63,12 @@ class Message{
     }
 
     public static function getAllMessagesByReceiverId(PDO $conn, int $receiverId){
-        $sql = "SELECT `Messages`.`id` `messageId`,`Messages`.`senderId` `senderId`,`Messages`.`creationDate` `creationDate`,`Messages`.`messageText` `message`,`Messages`.`recipientId` `receiver` 
+        $sql = "SELECT `Messages`.`id` `messageId`,
+                       `Messages`.`senderId` `senderId`,
+                       `Messages`.`creationDate` `creationDate`,
+                       `Messages`.`messageText` `message`,
+                       `Messages`.`recipientId` `receiver`,
+                       `Messages`.`isRead` `isRead`
                 FROM `Messages` 
                 JOIN `Users` ON `Messages`.`recipientId`=`Users`.`id`
                 WHERE `Messages`.`recipientId`=:receiverId

@@ -99,10 +99,12 @@
 
                             if ($_GET['page'] == 'home' && $_GET['tweetId'] == $v['tweetId'] && $_GET['comments']=='show'){
                                 $commentsPerTweet = Comment::loadAllCommentsByPostId($conn, $v['tweetId']);
-                                foreach ($commentsPerTweet as $key=>$value){ ?>
+                                foreach ($commentsPerTweet as $key=>$value){
+                                    $commentor = User::getById($conn,$value['commentor'])->getName();
+                                    ?>
                                     <div id="nrOfComments"  class="col-md-12 nav-link tweetStyle">
                                         <ul>
-                                            <li class="nav-link"><?= $value['commentor'] . ' said: ' . $value['commentText'] . ' on ' . $value['commentDate'] ?></li>
+                                            <li class="nav-link"><?= $commentor . ' said: ' . $value['commentText'] . ' on ' . $value['commentDate'] ?></li>
                                         </ul>
                                     </div>
                                 <?php }

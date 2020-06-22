@@ -32,12 +32,14 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $mess->setMessageText($messageText);
         $mess->saveMessage($conn);
 
-
+        if ($mess->saveMessage($conn)){
+            header('Location:index.php?page=home');
+            exit();
+        }
     }else{
         $hasErrors = true;
         $message = "Errors: " . implode(',',$errors);
     }
-    $page = 'home';
 
 }
 

@@ -19,17 +19,27 @@ require_once ROOT.'/includes/messages.php';
             $i = 0;
             foreach ($receivedMessages as $k=>$mess){
                 $i ++;
-                $senderName = User::getById($conn, $mess['senderId'])->getName(); ?>
+                $senderName = User::getById($conn, $mess['senderId'])->getName();
+                if ($mess['isRead'] == 0){?>
 
                 <tr>
                     <th scope="row"><?= $i ?></th>
                     <td><strong><?= $senderName ?></strong></td>
                     <td><strong><?= $mess['creationDate'] ?></strong></td>
                     <td><strong><?= substr($mess['message'],0,30) . '...' ?></strong></td>
-                    <td><button class="btn btn-outline-primary" type="submit" name="read" value="yes"><a class="nav-link" href="?page=messages&read=yes" name="<?= $mess['messageId'] ?>">Read</a> </button> </td>
+                    <td><button class="btn btn-outline-primary" type="submit" name="read" value="yes"><a class="nav-link" href="?page=message&read=yes&message=<?= $mess['messageId'] ?>">Read</a> </button> </td>
                 </tr>
 
+            <?php }else{ ?>
+                    <tr>
+                        <th scope="row"><?= $i ?></th>
+                        <td><?= $senderName ?></td>
+                        <td><?= $mess['creationDate'] ?>></td>
+                        <td><?= substr($mess['message'],0,30) . '...' ?></td>
+                        <td><button class="btn btn-outline-primary" type="submit" name="read" value="yes"><a class="nav-link" href="?page=message&read=yes&message=<?= $mess['messageId'] ?>">Read</a> </button> </td>
+                    </tr>
             <?php }
+            }
             ?>
             </tbody>
         </table>
@@ -60,7 +70,7 @@ require_once ROOT.'/includes/messages.php';
                 <td><?= $recipientName ?></td>
                 <td><?= $mess['creationDate'] ?></td>
                 <td><?= substr($mess['message'],0,30) . '...' ?></td>
-                <td><button class="btn btn-outline-primary" type="submit" name="read" value="yes">Read</button> </td>
+                <td><button class="btn btn-outline-primary" type="submit" name="read" value="yes"><a class="nav-link" href="?page=message&read=yes&message=<?= $mess['messageId'] ?>">Read</a></button> </td>
             </tr>
             <?php }
             ?>
