@@ -10,35 +10,45 @@
     if ($isLoggedIn){ ?>
         <div class="col-md-1"></div>
         <div class="col-md-5 mt-4">
-            <form action="./index.php?page=addTweet" method="post">
-                <div></div>
-                <div>
-                    <label>Add Tweet
-                        <textarea class="form-control" name="tweet" maxlength="140"></textarea>
-                    </label>
-                </div>
-                <div>
-                    <input class="btn btn-outline-primary" type="submit" value="Tweet" >
-                </div>
-                <hr>
-            </form>
-            <legend>My Tweets</legend>
-            <ul>
-                <?php
-                $myTweets = Tweet::loadAllTweetsByUserId($conn, $_SESSION['userId']);
-                foreach ($myTweets as $k=>$v){ ?>
-                    <li class="nav-link"><?= $v['text'] ?></li>
-                <?php }
-                ?>
-            </ul>
+            <div class="row">
+                <form action="./index.php?page=addTweet" method="post">
+                    <div></div>
+                    <div>
+                        <label>Add Tweet
+                            <textarea class="form-control" name="tweet" maxlength="140"></textarea>
+                        </label>
+                    </div>
+                    <div>
+                        <input class="btn btn-outline-primary" type="submit" value="Tweet" >
+                    </div>
+                    <hr>
+                </form>
+            </div>
+            <div class="row">
+                <legend>My Tweets</legend>
+                <ul>
+                    <?php
+                    $myTweets = Tweet::loadAllTweetsByUserId($conn, $_SESSION['userId']);
+                    foreach ($myTweets as $k=>$v){ ?>
+                        <li class="nav-link"><span style="color: blue"><?= $v['creationDate'] ?></span><?= ' ' . $v['text'] ?></li>
+                    <?php }
+                    ?>
+                </ul>
+            </div>
         </div>
     <?php }else{ ?>
-        <div class="col-md-3 mt-5 text-center">
+        <div class="col-md-3 mt-5">
             <h5>Not registred yet? You can register </h5>
+            <?php
+            include_once ROOT.'/views/register.php';
+            ?>
             <a class="nav-link" href="./index.php?page=register">here</a>
         </div>
-        <div class="col-md-3 mt-5 text-center">
+        <div class="col-md-3 mt-5">
             <h5>Already have an account? You can login </h5>
+            <?php
+            include_once ROOT.'/views/login.php';
+            ?>
             <a class="nav-link" href="./index.php?page=login">here</a>
         </div>
     <?php } ?>
@@ -88,7 +98,7 @@
                                     <a class="nav-link" href="?page=home&tweetId=<?= $v['tweetId'] ?>&addComment=add">
                                         <i class="fa fa-comment"></i>
                                     </a>
-                                    <a class="nav-link" href="?page=comment&tweetId=<?= $v['tweetId'] ?>">
+                                    <a class="nav-link" href="?page=user&userToDisplay=<?= $v['userId'] ?>">
                                         <i class="fa fa-paper-plane"></i>
                                     </a>
                                 </div>

@@ -14,7 +14,15 @@ class Comment{
         $this->text = '';
     }
 
-    public static function loadCommentById(){}
+    public static function deleteCommentById(PDO $conn, int $commentId){
+        $sql = "DELETE FROM `Comments` WHERE `id`=:commentId";
+        $stmt = $conn->prepare($sql);
+        $result = $stmt->execute(['commentId'=>$commentId]);
+        if ($result && $stmt->rowCount() > 0){
+            return true;
+        }
+        return false;
+    }
 
     public static function loadAllCommentsByPostId(PDO $conn, int $tweetId){
         $sql = "SELECT `Comments`.`id` `commentId`,`Comments`.`userId` `commentor`,`Comments`.`text` `commentText`,`Comments`.`creationDate` `commentDate`,`Comments`.`postId` `tweetId`,`Tweet`.`userId` `tweetorId`,`Tweet`.`text` `tweetText`,`Tweet`.`creationDate` `tweetDate` FROM `Comments` 
@@ -39,10 +47,7 @@ class Comment{
 
         if ($result){
             $commentsPerTweet = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $nrOfComments = 0;
-            foreach ($commentsPerTweet as $item){
-                $nrOfComments ++;
-            }
+            $nrOfComments = count($commentsPerTweet);
             return $nrOfComments;
         }
         return 0;
