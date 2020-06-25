@@ -1,6 +1,9 @@
 <?php
 require_once ROOT.'/includes/activeRecords/Comment.php';
-$userId = $_SESSION['userId'];
+if (isset($_SESSION['userId'])){
+    $userId = $_SESSION['userId'];
+}
+
 $tweetsList = [];
 $hasErrors = false;
 $errors = [];

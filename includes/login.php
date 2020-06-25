@@ -32,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             header('Location:index.php');
             exit();
         }else{
+            $hasErrors = true;
             $message = 'Wrong email or password';
         }
 

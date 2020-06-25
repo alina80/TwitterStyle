@@ -19,13 +19,15 @@ if ($isLoggedIn){
 if (!isset($_GET['page'])){
     $page = 'home';
 }else {
-    $page = in_array($_GET['page'], $routes) ?
-        $_GET['page'] : '404';
+    $page = $_GET['page'];
+}
+    $page = in_array($page, $routes) ?
+        $page : '404';
 
     $action = ROOT."/includes/$page.php";
 
     if (is_file($action)){
         require_once $action;
     }
-}
+
 include ROOT.'/views/main.php';

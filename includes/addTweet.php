@@ -12,7 +12,6 @@ require_once ROOT.'/includes/activeRecords/Tweet.php';
 
        if ($tweet->saveTweet($conn)){
            header('Location:index.php');
-
            exit();
        }else{
            echo 'Tweet not saved ';
