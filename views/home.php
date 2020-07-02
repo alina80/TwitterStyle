@@ -98,7 +98,7 @@
                             <?php
 
                             if ($_GET['page'] =='home' && $_GET['tweetId'] == $v['tweetId'] && $_GET['addComment'] == 'add'){
-                                
+
                                 include_once ROOT.'/includes/comment.php';
                                 ?>
                                 <div class="col-md-12 mt-4">

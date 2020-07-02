@@ -2,8 +2,16 @@
 session_start();
 
 define('ROOT',dirname(__DIR__));
-require_once ROOT.'/lib/conn.php';
-$conn = connect();
+require_once ROOT.'/lib/conn2.php';
+
+try {
+    $instance = Conn2::getInstance();
+    $conn = $instance->getConnection();
+}catch (Exception $e){
+    echo 'No connection';
+    $e->getMessage();
+
+}
 
 $public = ['home','login','register'];
 $private = ['profile','addTweet','removeTweet','comment','logout','profile','messages','user','message'];

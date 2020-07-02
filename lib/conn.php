@@ -23,3 +23,4 @@ function connect()
 
     return null;
 }
+?>
